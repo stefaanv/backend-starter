@@ -1,0 +1,193 @@
+{
+  "namespaces": [],
+  "tables": [
+    {
+      "columns": {
+        "bijaanvraagid": {
+          "name": "bijaanvraagid",
+          "type": "int",
+          "unsigned": true,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "tijdstip": {
+          "name": "tijdstip",
+          "type": "datetime",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "default": "'0000-00-00 00:00:00'",
+          "mappedType": "datetime"
+        },
+        "code": {
+          "name": "code",
+          "type": "varchar(10)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 10,
+          "default": "''",
+          "mappedType": "string"
+        },
+        "aanvragernaam": {
+          "name": "aanvragernaam",
+          "type": "varchar(50)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 50,
+          "default": "''",
+          "mappedType": "string"
+        },
+        "aanvragervoornaam": {
+          "name": "aanvragervoornaam",
+          "type": "varchar(50)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 50,
+          "default": "''",
+          "mappedType": "string"
+        },
+        "locatie": {
+          "name": "locatie",
+          "type": "varchar(50)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 50,
+          "default": "''",
+          "mappedType": "string"
+        },
+        "geprint": {
+          "name": "geprint",
+          "type": "datetime",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "default": "'0000-00-00 00:00:00'",
+          "mappedType": "datetime"
+        },
+        "patientnaam": {
+          "name": "patientnaam",
+          "type": "varchar(50)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 50,
+          "default": "''",
+          "mappedType": "string"
+        },
+        "patientvoornaam": {
+          "name": "patientvoornaam",
+          "type": "varchar(50)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 50,
+          "default": "''",
+          "mappedType": "string"
+        },
+        "aanvraag": {
+          "name": "aanvraag",
+          "type": "varchar(20)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 20,
+          "default": "''",
+          "mappedType": "string"
+        },
+        "aanvraagdatum": {
+          "name": "aanvraagdatum",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "'0000-00-00'",
+          "mappedType": "date"
+        },
+        "opmerkingen": {
+          "name": "opmerkingen",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 65535,
+          "mappedType": "text"
+        },
+        "kopij": {
+          "name": "kopij",
+          "type": "varchar(100)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 100,
+          "default": "''",
+          "mappedType": "string"
+        },
+        "gewicht": {
+          "name": "gewicht",
+          "type": "varchar(20)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 20,
+          "default": "''",
+          "mappedType": "string"
+        },
+        "analyses": {
+          "name": "analyses",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 65535,
+          "mappedType": "text"
+        },
+        "andere": {
+          "name": "andere",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 65535,
+          "mappedType": "text"
+        }
+      },
+      "name": "bijaanvraag",
+      "indexes": [
+        {
+          "keyName": "PRIMARY",
+          "columnNames": [
+            "bijaanvraagid"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {}
+    }
+  ]
+}

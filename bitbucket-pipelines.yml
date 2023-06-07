@@ -1,0 +1,61 @@
+# Dit werkt nog niet goed - getagde versies worden nog niet als TAGged builds herkens door bitbucket pipelines
+#
+#
+# This is a sample build configuration for Docker.
+# Check our guides at https://confluence.atlassian.com/x/O1toN for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+#
+# Propere uitleg over BickBucket Pipelines  https://think-engineer.com/blog/devops/bitbucket-pipelines-building-publishing-and-re-tagging-docker-images-in-a-ci-cd-workflow
+image: atlassian/default-image:2
+
+options:
+  docker: true
+
+definitions:
+#  services:
+#    docker:
+#      memory: 4096       # memory: 1024  # default value
+
+  steps:
+    - step: &build-and-push
+        size: 2x
+        name: build and push docker image
+        script:
+          # build the Docker image
+          # origional IMAGE_NAME export IMAGE_NAME=myorg/myapp:$BITBUCKET_BRANCH-$BITBUCKET_COMMIT
+          - export IMAGE_NAME=$IMAGE_PREFIX
+          - echo $BITBUCKET_TAG
+          - docker build --build-arg COMMIT=$BITBUCKET_COMMIT --build-arg TAG=$BITBUCKET_TAG -t $IMAGE_NAME .
+          # authenticate with the Docker Hub registry
+          - docker login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD
+          # push the new Docker image to the Docker registry
+          - docker push $IMAGE_NAME
+
+pipelines:
+  custom: 
+      develop:
+      - step: *build-and-push
+  branches:
+    develop:
+      - step: *build-and-push
+    master:
+      - step: *build-and-push
+  tags:
+    '*':
+      - step: *build-and-push
+      - step:
+          name: retag and repush image
+          script:
+            # get the image that was built in the master branch
+            - export IMAGE_NAME=$IMAGE_PREFIX
+            - export NEW_IMAGE_NAME=$IMAGE_PREFIX:$BITBUCKET_TAG
+            # authenticate with the Docker Hub registry
+            - docker login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD
+            # pull the image down
+            - docker pull $IMAGE_NAME
+            # retag the image using the git tag
+            - docker tag $IMAGE_NAME $NEW_IMAGE_NAME
+            # push the image back
+            - docker push $NEW_IMAGE_NAME

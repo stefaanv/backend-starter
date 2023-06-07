@@ -19,6 +19,7 @@ async function bootstrap() {
   const config = app.get(ConfigService)
   const port = config.get<number>('port', 3000)
   app.enableCors()
+  app.setGlobalPrefix(config.get<string>('globalUrlPrefix', 'api'))
   await app.listen(port)
   logger.info(`${appName} is now available at port ${port}`)
 }

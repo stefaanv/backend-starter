@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common'
 import { AppController } from './app.controller'
-import { AppService } from './app.service'
 import { MikroOrmModule, MikroOrmModuleSyncOptions } from '@mikro-orm/nestjs'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import config from './config/config'
@@ -17,7 +16,7 @@ import { AppInfoService } from './app-info/app-info.service'
     }),
   ],
   controllers: [AppController],
-  providers: [AppService, AppInfoService],
+  providers: [AppInfoService, AppInfoService],
 })
 export class AppModule {}
 

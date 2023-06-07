@@ -5,6 +5,7 @@ generate-entities.ts
 .env
 .env.*
 !.env.sample
+.snapshot*.json
 
 # Logs
 logs

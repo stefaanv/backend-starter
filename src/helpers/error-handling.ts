@@ -9,15 +9,27 @@ export function ensureError(value: unknown): Error {
   return new Error(stringified)
 }
 
-export async function to<T>(promise: Promise<T>): Promise<[null | Error, T | undefined]> {
-  return promise.then(res => [null, res] as [null, T]).catch(e => [ensureError(e), undefined])
+export async function to<T>(
+  promise: Promise<T>,
+  handleError?: (error: Error) => [null | Error, T | undefined],
+): Promise<[null | Error, T | undefined]> {
+  return promise
+    .then((res: T) => [null, res] as [null, T])
+    .catch((e: unknown) => {
+      if (handleError) return handleError(ensureError(e))
+      return [ensureError(e), undefined]
+    })
 }
 
-export function toSync<T>(canThrow: () => T): [null | Error, T | undefined] {
+export function toSync<T>(
+  canThrow: () => T,
+  handleError?: (error: Error) => [null | Error, T | undefined],
+): [null | Error, T | undefined] {
   try {
     return [null, canThrow()]
-  } catch (error) {
-    return [ensureError(error), undefined]
+  } catch (e: unknown) {
+    if (handleError) return handleError(ensureError(e))
+    return [ensureError(e), undefined]
   }
 }
 

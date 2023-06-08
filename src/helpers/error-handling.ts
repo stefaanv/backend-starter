@@ -39,15 +39,15 @@ export async function to<T, E = Error>(
     })
 }
 
-export function toSync<T>(
+export function toSync<T, E = Error>(
   canThrow: () => T,
-  handleError?: HandleErrorFn<T>,
-): [null | Error, T | undefined] {
+  handleError?: HandleErrorFn<T, E>,
+): FailOrSuccessTuple<T, E> {
   try {
     return [null, canThrow()]
   } catch (e: unknown) {
     if (handleError) return handleError(ensureError(e))
-    return [ensureError(e), undefined]
+    return [ensureError<E>(e), undefined]
   }
 }
 

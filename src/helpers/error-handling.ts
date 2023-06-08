@@ -9,27 +9,39 @@ export function ensureError<E = Error>(value: unknown): E {
   return new Error(stringified) as E
 }
 
-export type FailedTuple<E = Error> = [E, undefined]
+export type FailTuple<E = Error> = [E, undefined]
 export type SuccessTuple<T> = [null, T]
-export type FailedOrSuccessTuple<T, E = Error> = FailedTuple<E> | SuccessTuple<T>
-export type handleErrorFn<T, E = Error> = (error: E) => FailedOrSuccessTuple<T, E>
-const processCatch = <T, E = Error>(e: unknown, handleError?: handleErrorFn<T, E>) => {
+export type FailOrSuccessTuple<T, E = Error> = FailTuple<E> | SuccessTuple<T>
+export type HandleErrorFn<T, E = Error> = (error: E) => FailOrSuccessTuple<T, E>
+const processCatch = <T, E = Error>(e: unknown, handleError?: HandleErrorFn<T, E>) => {
   if (handleError) return handleError(ensureError(e))
-  return [ensureError(e), undefined] as FailedOrSuccessTuple<T, E>
+  return [ensureError(e), undefined] as FailOrSuccessTuple<T, E>
 }
 
+export async function to<T, E = Error>(promise: Promise<T>): Promise<FailOrSuccessTuple<T, E>>
 export async function to<T, E = Error>(
   promise: Promise<T>,
-  handleError?: handleErrorFn<T, E>,
-): Promise<FailedOrSuccessTuple<T, E>> {
+  handleError: HandleErrorFn<T, E>,
+): Promise<FailOrSuccessTuple<T, E>>
+export async function to<T, E = Error>(
+  promise: Promise<T>,
+  handleError: HandleErrorFn<T, E>,
+  handlesAllErrors: true,
+): Promise<SuccessTuple<T>>
+export async function to<T, E = Error>(
+  promise: Promise<T>,
+  handleError?: HandleErrorFn<T, E>,
+): Promise<FailOrSuccessTuple<T, E>> {
   return promise
     .then((result: T) => [null, result] as SuccessTuple<T>)
-    .catch((e: unknown) => processCatch<T, E>(e, handleError))
+    .catch((e: unknown) => {
+      return processCatch<T, E>(e, handleError)
+    })
 }
 
 export function toSync<T>(
   canThrow: () => T,
-  handleError?: handleErrorFn<T>,
+  handleError?: HandleErrorFn<T>,
 ): [null | Error, T | undefined] {
   try {
     return [null, canThrow()]

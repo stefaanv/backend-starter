@@ -39,7 +39,7 @@ export async function to<T, E = Error>(
     })
 }
 
-export function toSync<T, E = Error>(
+export function tos<T, E = Error>(
   canThrow: () => T,
   handleError?: HandleErrorFn<T, E>,
 ): FailOrSuccessTuple<T, E> {

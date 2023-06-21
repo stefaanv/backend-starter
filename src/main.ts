@@ -8,6 +8,12 @@ import { AppInfoService } from './app-info/app-info.service'
 import { LogService } from './logging/log.service'
 export const APP_NAME = 'backup-starter'
 
+/*TODO!  CLI toevoegen met https://nest-commander.jaymcdoniel.dev/en/features/commander/
+- herstarten
+- config herladen
+- activeren van taken
+*/
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { bufferLogs: true })
   const appInfoService = app.get(AppInfoService)
